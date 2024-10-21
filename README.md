@@ -156,6 +156,14 @@ _Default:_ `1024 * 40` (40 Kilobytes)
 Optimization option. See the section [Indexing](#indexing-and-how-to-optimize-it).
 
 
+### debounce (type: number)
+
+_Default_: `400`
+
+Optimization option. The time (ms) for debouncing the per-update indexing.
+Use `0` for no debouncing.
+
+
 ## Locality bonus comparator (distance-based sorting)
 
 This source also provides a comparator function which uses information from the word indexer
