@@ -37,6 +37,13 @@ _Default:_ `3`
 The number of characters that need to be typed to trigger auto-completion.
 
 
+### show_source (type: bool)
+
+_Default:_ false
+
+shows in a popup window the file the file this completion is from
+
+
 ### keyword_pattern (type: string)
 
 __Default:_ `[[\%(-\?\d\+\%(\.\d\+\)\?\|\%(\h\|[\u00C0-\u00D6]\|[\u00D8-\u00F6]\|[\u00F8-\u02AF]\)\%(\w\|[\u00C0-\u00D6]\|[\u00D8-\u00F6]\|[\u00F8-\u02AF]\)*\%(-\%(\w\|[\u00C0-\u00D6]\|[\u00D8-\u00F6]\|[\u00F8-\u02AF]\)*\)*\)]]`
