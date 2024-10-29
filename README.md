@@ -1,4 +1,4 @@
-# cmp-buffer
+# cmp-buffer (fork)
 
 nvim-cmp source for buffer words.
 
