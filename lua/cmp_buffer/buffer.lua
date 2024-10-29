@@ -1,4 +1,4 @@
-local timer = require('cmp_buffer.timer')
+local timer = require("cmp_buffer.timer")
 
 local function clear_table(tbl)
   for k in pairs(tbl) do
@@ -272,7 +272,11 @@ function buffer.watch(self)
         end
       end
 
-      if first_line == self.last_edit_first_line and old_last_line == self.last_edit_last_line and new_last_line == self.last_edit_last_line then
+      if
+        first_line == self.last_edit_first_line
+        and old_last_line == self.last_edit_last_line
+        and new_last_line == self.last_edit_last_line
+      then
         self.unique_words_curr_line_dirty = true
       else
         self.unique_words_curr_line_dirty = true
@@ -289,13 +293,17 @@ function buffer.watch(self)
           self.queue[i] = true
         end
         self.debounce_timer:stop()
-        self.debounce_timer:start(self.opts.debounce, 0, vim.schedule_wrap(function()
-          self:safe_buf_call(function()
-            for linenr, _ in pairs(self.queue) do
-              self:index_line(linenr, vim.api.nvim_buf_get_lines(self.bufnr, linenr - 1, linenr, true)[1])
-            end
+        self.debounce_timer:start(
+          self.opts.debounce,
+          0,
+          vim.schedule_wrap(function()
+            self:safe_buf_call(function()
+              for linenr, _ in pairs(self.queue) do
+                self:index_line(linenr, vim.api.nvim_buf_get_lines(self.bufnr, linenr - 1, linenr, true)[1])
+              end
+            end)
           end)
-        end))
+        )
       else
         self:index_range(first_line, new_last_line)
       end

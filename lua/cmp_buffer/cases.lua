@@ -15,7 +15,6 @@ function get_word_slices(name)
 
       last_character_uppercase = false
     elseif string.upper(character) == character then
-
       if last_character_uppercase or current_word == "" then
         current_word = current_word .. string.lower(character)
       else
