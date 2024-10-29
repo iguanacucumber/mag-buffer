@@ -34,10 +34,32 @@ source.new = function()
   return self
 end
 
+-- Code taken from @MariaSolOs in a indent-blankline.nvim PR:
+-- https://github.com/lukas-reineke/indent-blankline.nvim/pull/934/files#diff-09ebcaa8c75cd1e92d25640e377ab261cfecaf8351c9689173fd36c2d0c23d94R16
+-- According to https://github.com/neovim/neovim/pull/28977 it's ~ 39 000% faster
+
+--- Use the faster validate version if available.
+--- NOTE: We disable some Lua diagnostics here since lua_ls isn't smart enough to
+--- realize that we're using an overloaded function.
+---@param spec table<string, {[1]:any, [2]:function|string, [3]:string|true|nil}>
+local validate = function(spec)
+  if vim.fn.has "nvim-0.11" == 1 then
+    for key, key_spec in pairs(spec) do
+      local message = type(key_spec[3]) == "string" and key_spec[3] or nil --[[@as string?]]
+      local optional = type(key_spec[3]) == "boolean" and key_spec[3] or nil --[[@as boolean?]]
+      ---@diagnostic disable-next-line:param-type-mismatch, redundant-parameter
+      vim.validate(key, key_spec[1], key_spec[2], optional, message)
+      end
+  else
+    ---@diagnostic disable-next-line:param-type-mismatch
+    vim.validate(spec)
+  end
+end
+
 ---@return cmp_buffer.Options
 source._validate_options = function(_, params)
   local opts = vim.tbl_deep_extend('keep', params.option, defaults)
-  vim.validate({
+  validate({
     keyword_length = { opts.keyword_length, 'number' },
     keyword_pattern = { opts.keyword_pattern, 'string' },
     get_bufnrs = { opts.get_bufnrs, 'function' },
