@@ -1,5 +1,5 @@
-local buffer = require('cmp_buffer.buffer')
-local case_lookup = require('cmp_buffer.cases')
+local buffer = require("cmp_buffer.buffer")
+local case_lookup = require("cmp_buffer.cases")
 
 ---@class cmp_buffer.Options
 ---@field public keyword_length number
@@ -43,13 +43,13 @@ end
 --- realize that we're using an overloaded function.
 ---@param spec table<string, {[1]:any, [2]:function|string, [3]:string|true|nil}>
 local validate = function(spec)
-  if vim.fn.has "nvim-0.11" == 1 then
+  if vim.fn.has("nvim-0.11") == 1 then
     for key, key_spec in pairs(spec) do
       local message = type(key_spec[3]) == "string" and key_spec[3] or nil --[[@as string?]]
       local optional = type(key_spec[3]) == "boolean" and key_spec[3] or nil --[[@as boolean?]]
       ---@diagnostic disable-next-line:param-type-mismatch, redundant-parameter
       vim.validate(key, key_spec[1], key_spec[2], optional, message)
-      end
+    end
   else
     ---@diagnostic disable-next-line:param-type-mismatch
     vim.validate(spec)
@@ -58,15 +58,15 @@ end
 
 ---@return cmp_buffer.Options
 source._validate_options = function(_, params)
-  local opts = vim.tbl_deep_extend('keep', params.option, defaults)
+  local opts = vim.tbl_deep_extend("keep", params.option, defaults)
   validate({
-    keyword_length = { opts.keyword_length, 'number' },
-    keyword_pattern = { opts.keyword_pattern, 'string' },
-    get_bufnrs = { opts.get_bufnrs, 'function' },
-    indexing_batch_size = { opts.indexing_batch_size, 'number' },
-    indexing_interval = { opts.indexing_interval, 'number' },
-    cases = { opts.cases, 'table' },
-    show_source = { opts.show_source, 'boolean' },
+    keyword_length = { opts.keyword_length, "number" },
+    keyword_pattern = { opts.keyword_pattern, "string" },
+    get_bufnrs = { opts.get_bufnrs, "function" },
+    indexing_batch_size = { opts.indexing_batch_size, "number" },
+    indexing_interval = { opts.indexing_interval, "number" },
+    cases = { opts.cases, "table" },
+    show_source = { opts.show_source, "boolean" },
   })
   return opts
 end
@@ -106,7 +106,7 @@ source.complete = function(self, params, callback)
               detail = opts.show_source and buf:description(),
             })
             if opts.cases ~= {} then
-            local slices = get_word_slices(word)
+              local slices = get_word_slices(word)
 
               for _, case in ipairs(opts.cases) do
                 local new_word
